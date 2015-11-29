@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=
+comment0.target=DurationDisplay()
+comment1.params=percentage
+comment1.target=void\ setPercentage(double)
+numComments=2

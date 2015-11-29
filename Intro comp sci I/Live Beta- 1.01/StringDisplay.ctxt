@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=x\ y\ font\ color
+comment0.target=StringDisplay(int,\ int,\ int,\ java.awt.Color)
+comment1.params=value
+comment1.target=void\ updateValue(int)
+comment1.text=\r\n\ Updates\ the\ coins\ display\ image\ to\ the\ current\ number\ of\ coins\r\n
+comment2.params=
+comment2.target=void\ update()
+comment2.text=\r\n\ Adds\ or\ removes\ the\ coins\ display\ to\ the\ world\ \r\n
+numComments=3

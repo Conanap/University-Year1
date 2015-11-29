@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=rg
+comment0.target=Torch(int)
+comment0.text=\r\n\ Create\ a\ torch\ with\ a\ certein\ range.\r\n
+comment1.params=rg\ id
+comment1.target=Torch(int,\ int)
+comment2.params=
+comment2.target=int\ getRange()
+comment3.params=
+comment3.target=void\ act()
+comment4.params=
+comment4.target=void\ notifyBlocks()
+comment4.text=\r\n\ Notifiy\ the\ block\ around\ the\ torch\ to\ adjust\ brightness.\r\n
+comment5.params=
+comment5.target=int\ returnID()
+numComments=6

@@ -1,0 +1,154 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
+
+/**
+ * Write a description of class Bomb here.
+ * 
+ * @author Roland Li
+ * @version (a version number or a date)
+ */
+public class Bomb extends Throwables
+{
+    private double grav; //Amount to move downward due to gravity
+    private boolean exploding; //For animations
+    private int frameNum = 0;
+    private int xCo, yCo; //Since setting turnTowards in the constructor doesn't seem to work
+
+    GreenfootImage baseImg = new GreenfootImage("tnt.png");
+    private GreenfootSound explosion = new GreenfootSound("Explosion.mp3");
+
+    public Bomb () {
+        maxSpeed = 60;
+        maxTime = 180; //Time before bomb automatically explodes
+
+        curSpeed = maxSpeed;
+        curTime = 0;
+        flightDist = 0;
+        grav = 1;
+        setImage(baseImg);
+        explosion.setVolume(30);
+    }
+
+    public Bomb (int x, int y) {
+        this();
+        xCo = x;
+        yCo = y;
+    }
+
+    public void addedToWorld(World currentWorld){
+        turnTowards (xCo, yCo);
+
+        //Sets the speed based off how far away the set distance is
+
+        //Find the distance between the current location and the location to move towards
+        //and then find the ratio between this distance and the world size
+        double x = getX() - xCo;
+        double y = getY() - yCo;
+        x = x/currentWorld.getWidth(); 
+        y = y/currentWorld.getHeight();
+        if (x < 0){ x = x*-1;} //Make sure the values are positive
+        if (y < 0) { y = y*-1;}
+        //Sets the speed to the maxSpeed
+        curSpeed = (int) (maxSpeed*((x+y)/2));
+        if (curSpeed > 10){
+            curSpeed = 10; //To limit the throwing range of the bomb
+        }
+    }
+
+    /**
+     * Act - do whatever the Bomb wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
+    public void act() 
+    {
+        if (!exploding){fly();}
+        else{ explode();}
+    }
+
+    public void fly(){
+        move(curSpeed);
+        gravity();
+
+        curTime++;
+        if (curTime >= maxTime){
+            exploding = true;
+            dealDamage(); //Happens only once
+            explode();
+        }
+        else {
+            checkCollision();
+        }
+    }
+
+    private void checkCollision(){
+        List<Actor> objects = getIntersectingObjects(Block.class);
+        if (objects.size() != 0){
+            boolean blowUp = true;  
+//To check if the objects in the list are on the "safe list"
+            for (Actor entities: objects){
+                if (entities instanceof Player){ blowUp = false; }
+                if (entities instanceof Rope){ blowUp = false; }
+
+            }
+            if (blowUp){ 
+                dealDamage();
+                exploding = true;
+                explode();
+            }
+        }
+    }
+
+    private void gravity(){
+        int gravRounded = (int)grav / 5; 
+        //To make the decent more gradual due to the rounding;
+        //increases 1 pixel drop roughly once per second
+        setLocation(getX(), getY() + gravRounded);
+        grav++;
+    }
+
+    private void dealDamage(){
+        //Makes it so that blocks/characters closest to the center of the explosion takes the most damage
+        //If you are in the epicenter of the explosion, you take all "waves" of damage;
+        //ex. If you throw a bomb at your feet, you take 20+15+10+5
+        for (int i = 0; i < 4; i++){
+            int range = 30 + i*30;
+            List<Block> blocks = getObjectsInRange(range,Block.class);
+            if (blocks.size() != 0)
+            {
+                for (Block blo: blocks)
+                {
+                    blo.damage(8-i*2);
+                }
+            }
+            int damage = 20;
+            List<Characters> mobs = getObjectsInRange(range,Characters.class);
+            if (mobs.size() != 0)
+            {
+                for (Characters mob: mobs){
+                    mob.damage(damage-5*i); 
+                }
+            }  
+        } 
+    }
+
+    /**
+     * Quickly changes it's frames to make it appear as if the explosion
+     * is animated.
+     * Removes itself once the animation is over.
+     *
+     */
+    public void explode() {
+        if (frameNum == 0){
+            explosion.play();
+        }
+        if (frameNum >= 16){
+            getWorld().removeObject(this);
+        }
+        else{
+            frameNum++;
+            GreenfootImage frame = new GreenfootImage("explosion (" + frameNum + ").png");
+            frame.scale(110,110);
+            this.setImage(frame);
+        }
+    }
+}

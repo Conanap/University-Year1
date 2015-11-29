@@ -1,0 +1,28 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
+/**
+ * Write a description of class PlayerArm here.
+ * 
+ * @author Tyler Zhang
+ * @version Jan 2015
+ */
+public class PlayerArm extends Tools
+{
+    public PlayerArm(Player tar)
+    {
+        name = "bare hands";
+        dmg = 1;
+        healthMax = 10000000; //Infinate health.
+        health = healthMax;
+        range = 80;
+        speed = 5;
+        holdCounter = 0;
+        healthCounter = 0;
+        target = tar;
+    }
+
+    public void act() 
+    {
+        followMouse();
+    }
+}

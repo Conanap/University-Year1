@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=
+comment0.target=SetRope()
+comment1.params=changeAdd\ ID
+comment1.target=SetRope(boolean,\ int)
+comment2.params=mLength
+comment2.target=SetRope(int)
+comment3.params=mLength\ cLength
+comment3.target=SetRope(int,\ int)
+comment4.params=mLength\ cLength\ ID
+comment4.target=SetRope(int,\ int,\ int)
+comment5.params=currentWorld
+comment5.target=void\ addedToWorld(greenfoot.World)
+comment6.params=
+comment6.target=void\ act()
+comment6.text=\r\n\ Act\ -\ do\ whatever\ the\ SetRope\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+numComments=7

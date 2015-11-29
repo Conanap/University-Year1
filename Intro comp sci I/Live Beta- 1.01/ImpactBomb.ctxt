@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.params=
+comment0.target=ImpactBomb()
+comment1.params=x\ y
+comment1.target=ImpactBomb(int,\ int)
+comment2.params=x\ y\ damage\ radius
+comment2.target=ImpactBomb(int,\ int,\ int,\ int)
+comment3.params=currentWorld
+comment3.target=void\ addedToWorld(greenfoot.World)
+comment4.params=
+comment4.target=void\ act()
+comment4.text=\r\n\ Act\ -\ do\ whatever\ the\ Bomb\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment5.params=
+comment5.target=void\ fly()
+comment5.text=\r\n\ Moves\ horizontally\ based\ off\ current\ speed\ while\ calling\ the\ gravity\ method.\ Increases\ timer,\ if\ it\ reaches\ max\ time,\ expodes.\r\n\r\n
+comment6.params=
+comment6.target=void\ gravity()
+comment6.text=\r\n\ Causes\ object\ to\ move\ down\ vertically\r\n\r\n
+comment7.params=
+comment7.target=void\ checkCollision()
+comment7.text=\r\n\ If\ collides\ with\ an\ object,\ except\ for\ certain\ exceptions,\ will\ blow\ up.\r\n\r\n
+numComments=8

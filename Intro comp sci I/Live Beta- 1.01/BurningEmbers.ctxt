@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=
+comment0.target=BurningEmbers()
+comment0.text=\r\n\ The\ constructor\ of\ ember.\r\n
+comment1.params=
+comment1.target=void\ act()
+comment1.text=\r\n\ Act\ -\ do\ whatever\ the\ BurningEmbers\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment2.params=
+comment2.target=void\ setImage()
+comment2.text=\r\n\ Set\ the\ image\ of\ the\ ember.\r\n
+numComments=3

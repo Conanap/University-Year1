@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.params=
+comment0.target=FlyRope()
+comment1.params=length
+comment1.target=FlyRope(int)
+comment2.params=length\ ID
+comment2.target=FlyRope(int,\ int)
+comment3.params=
+comment3.target=void\ act()
+comment3.text=\r\n\ Act\ -\ do\ whatever\ the\ Rope\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment4.params=
+comment4.target=void\ fly()
+comment5.params=
+comment5.target=void\ attachBlock()
+numComments=6

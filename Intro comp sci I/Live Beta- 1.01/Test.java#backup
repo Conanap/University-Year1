@@ -1,0 +1,280 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.io.FileNotFoundException;
+import java.util.List;
+import java.lang.IllegalStateException;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
+/**
+ * Write a description of class Test here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class Test extends World
+{
+    private Player player = new Player();
+    private int jumpHold,xSpawn,ySpawn;
+    private worldGen generator = new worldGen();
+    private LoadingScreen loading = new LoadingScreen(); //Pictures that are classes; so that they are drawn ontop of all objects
+    private OverlayScreen overlay = new OverlayScreen();
+    private boolean loadedWorld=false, mapLoaded=false;
+    private int [] [] map;
+    ShopInv shopInv;
+    private int shopDelay;
+    /**
+     * Constructor for objects of class Test.
+     * 
+     */
+    public Test()
+    {    
+        // Create a new world with 600x400 cells with a cell size of 1x1 pixels.
+        super(1280, 720, 1); 
+        addObject(player, 100,100);
+
+        setPaintOrder(LoadingScreen.class, Slots.class, Buttons.class, StringDisplay.class, Inventory.class,
+            HealthBar.class, OverlayScreen.class, Block.class,Rope.class,Bomb.class,Player.class);
+
+        addObject(loading,640,360);
+        addObject(overlay, 640, 360);
+        shopInv = new ShopInv();
+        shopDelay = 0;
+    }
+
+    public void act(){
+        if(!mapLoaded)
+        {
+            transferWorldIn();
+            mapLoaded=true;
+        }
+        if(!loadedWorld)
+            loadWorld();
+        else
+        {
+            List<Player> isPlayerHere = getObjects(Player.class);
+            if(isPlayerHere.size()>0)
+            {
+                checkInventories();
+                buttonInput();
+                movement();
+                checkPlayerWorld();
+                shopDelay++; 
+            }
+        }
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public ShopInv getShopInv() {
+        return shopInv;
+    }
+
+    private void buttonInput() {
+        if (Greenfoot.isKeyDown("space")){
+            jumpHold++;
+            player.jump(jumpHold);
+        }
+        else{ jumpHold = 0; player.resetJump();} //Resets counter
+        if (Greenfoot.isKeyDown("z")){ //Temporary? Or make this a button.
+            player.throwRope();
+        }
+        if (Greenfoot.isKeyDown("c")){ //Temp?
+            player.throwBomb();
+        }
+    }
+
+    private void movement() {
+        if(Greenfoot.isKeyDown("w")){
+            player.climbRope(2);
+        }
+        if(Greenfoot.isKeyDown("s")){
+            player.climbRope(-2);
+        }
+        if (Greenfoot.isKeyDown("a")){
+            player.moveX(-2);
+        }
+        if (Greenfoot.isKeyDown("d")){
+            player.moveX(2);
+        }
+    }
+
+    private void checkInventories() {
+        if (Greenfoot.isKeyDown("control")){
+            player.toggleInventory();
+        }
+        if (Greenfoot.isKeyDown("[") && !shopInv.isShowing() && shopDelay >= 20){
+            addObject(shopInv, 1041, 366);
+            shopInv.setShowing(true);
+            shopDelay = 0;
+        } else if (Greenfoot.isKeyDown("[") && shopInv.isShowing() && shopDelay >= 20){
+            shopInv.setShowing(false);
+            shopInv.removeShopItems();
+            removeObject(shopInv);
+            shopDelay = 0;
+        }
+    }
+
+    private void checkPlayerWorld()
+    {
+        try
+        {
+            if(player.getX()<=3&&xSpawn>=25||player.getX()>=1074&&xSpawn<=574)
+            {
+                int y = player.getY(),x=player.getX();
+                List<Actor> Objects=getObjects(null);
+                removeObjects(Objects);
+                addObject(overlay, 640, 360); //Re-add overlay
+
+                if(x<=3)
+                {
+                    xSpawn-=26;
+                    x=1070;
+                }
+                else
+                {
+                    xSpawn+=26;
+                    x=7;
+                }
+                loadWorld(xSpawn,ySpawn);
+                addObject(player,x,y);
+            }
+
+            if(player.getY()>=696&&ySpawn<=2970||player.getY()<=68&&ySpawn>0)
+            {
+                int y = player.getY(),x=player.getX();
+                List<Actor> Objects=getObjects(null);
+                removeObjects(Objects);
+                addObject(overlay, 640, 360); //Re-add overlay
+                if(y>=675)
+                {
+                    ySpawn+=9;
+                    y=70;
+                    if(ySpawn>=9)
+                        ySpawn+=15;
+                }
+                else
+                {
+                    ySpawn-=9;
+                    y=622;
+                    if(ySpawn>9)
+                        ySpawn-=15;
+                }
+
+                loadWorld(xSpawn,ySpawn);
+                addObject(player,x,y);
+            }
+        }
+        catch(IllegalStateException e)
+        { System.out.println("GAME OVER");}
+    }
+
+    private void transferWorldIn()
+    {
+        String path = "world.txt";
+        this.map = new int [3000] [600];
+        try
+        {
+            FileInputStream is =new FileInputStream (path);
+            InputStreamReader isr = new InputStreamReader(is,"UTF-8");
+            BufferedReader br= new BufferedReader(isr);
+        }
+        catch(FileNotFoundException e)
+        {
+            System.out.println("Looks like the world has not yet been generated! We are generating it now");
+            generator.createWorld();
+        }
+        catch(UnsupportedEncodingException e)
+        {
+            System.out.println("Unsupported encoding");
+        }
+        finally
+        {
+            try
+            {
+                InputStream is =new FileInputStream (path);
+                InputStreamReader isr = new InputStreamReader(is,"utf-8");
+                BufferedReader br= new BufferedReader(isr);
+                int value = 0,xCou=0,yCou=0;
+                String line;
+                boolean moreToGo=true;
+                while(moreToGo)
+                {
+                    map[yCou][xCou]=Integer.parseInt(line=br.readLine());
+                    xCou++;
+                    if(xCou==600)
+                    {
+                        xCou=0;
+                        yCou++;
+                    }
+                    if(yCou==3000)
+                        moreToGo=false;
+                }
+                is.close();
+                isr.close();
+                br.close();
+            }
+            catch(FileNotFoundException e)
+            { System.out.println("Looks like the world has not yet been generated!");}
+            catch(IOException e)
+            {System.out.println("Permission error");}
+        }
+    }
+
+    private void loadWorld()
+    {
+        xSpawn=278;
+        ySpawn=0;
+        loadWorld(278,0);
+    }
+
+    /**
+     * Prepare the world for the start of the program. That is: create the initial
+     * objects and add them to the world.
+     */
+    private void loadWorld(int xBlock, int yBlock)
+    {
+        int x, y = 220,screenSpawn=13;
+        if(yBlock!=0)
+        {
+            y=20;
+            screenSpawn=18;
+        }
+        for(int i=yBlock; i < (yBlock+screenSpawn); i++)
+        {
+            x=20;
+            int k = 0;
+            for(int j = xBlock; j <(xBlock+27)&&j<600; j++)
+            {
+                if(map[i][j]==1||map[i][j]==2||map[i][j]==3||map[i][j]==4||map[i][j]==5||map[i][j]==6||map[i][j]==7||map[i][j]==8)
+                    addObject(new Block(i,j,map[i][j]),x,y);
+                x+=40;
+            }
+            k++;
+            y+=40;
+
+            if(k==2)
+            {
+                k=0;
+                loading.change();
+            }
+        }
+        removeObject (loading);
+        loadedWorld=true;
+    }
+
+    public void mapMod (int xInt, int yInt, int type)
+    {
+        map[xInt][yInt]= type;
+    }
+
+    public int[][] getMap()
+    {
+        return map;
+    }
+}

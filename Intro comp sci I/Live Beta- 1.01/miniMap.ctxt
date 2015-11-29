@@ -1,0 +1,24 @@
+#BlueJ class context
+comment0.params=
+comment0.target=miniMap()
+comment0.text=\r\n\ Construct\ a\ new\ minimap\r\n
+comment1.params=
+comment1.target=void\ buildMap()
+comment1.text=\r\n\ Called\ to\ build\ the\ rest\ of\ the\ minimap\r\n
+comment2.params=
+comment2.target=void\ base()
+comment3.params=
+comment3.target=void\ updateMap()
+comment3.text=\r\n\ called\ to\ update\ the\ minimap.\r\n
+comment4.params=
+comment4.target=void\ player()
+comment5.params=
+comment5.target=void\ spawnLoc()
+comment6.params=blockX\ blockY\ space
+comment6.target=void\ drawMinRect(int,\ int,\ boolean)
+comment7.params=
+comment7.target=void\ drawPlayer()
+comment8.params=xInt\ yInt\ type
+comment8.target=void\ mapMod(int,\ int,\ int)
+comment8.text=\r\n\ Called\ when\ a\ block\ is\ modified\ (removed\ specifically)\ from\ the\ map.\r\n\ @param\ xInt\ The\ x\ coordinate\ of\ the\ block\r\n\ @param\ yInt\ The\ y\ coordinate\ of\ the\ block\r\n\ @param\ type\ The\ new\ block\ type\ to\ occupy\ that\ block\ space\r\n
+numComments=9

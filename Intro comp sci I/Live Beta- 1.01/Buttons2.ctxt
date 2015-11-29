@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Buttons2()
+comment0.text=\r\n\ The\ default\ constructor\ for\ the\ "Buttons2"\ class.\r\n
+comment1.params=
+comment1.target=boolean\ isPressed()
+comment1.text=\r\n\ This\ method\ is\ supposed\ to\ return\ a\ boolean\ that\ tells\ whether\ or\ not\ the\ button\ has\ been\ clicked.\r\n
+numComments=2

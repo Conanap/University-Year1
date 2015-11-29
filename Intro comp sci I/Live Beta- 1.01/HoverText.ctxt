@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=itemID
+comment0.target=HoverText(int)
+comment0.text=\r\n\ Creates\ new\ hover\ text\ specific\ to\ the\ item.\r\n\ @param\ itemID\ The\ ID\ of\ the\ item.\ (type)\r\n
+comment1.params=
+comment1.target=int\ getHeight()
+comment1.text=\r\n\ Called\ to\ retrieve\ the\ height\ of\ the\ hover\ text\ box.\r\n
+numComments=2

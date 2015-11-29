@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Spider()
+comment1.params=
+comment1.target=void\ act()
+comment1.text=\r\n\ Act\ -\ do\ whatever\ the\ Enemies\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment2.params=num
+comment2.target=void\ moveX(int)
+comment3.params=
+comment3.target=void\ climbUp()
+comment3.text=\r\n\ Moves\ vertically\ upwards\ if\ the\ player\ is\ not\ below.\r\n\r\n
+comment4.params=
+comment4.target=void\ chargePlayer()
+comment4.text=\r\n\ Checks\ for\ player\ location\ and\ sees\ if\ it\ is\ directly\ below.\ If\ so,\ moves\ downwards\ rapidly.\r\n\r\n
+comment5.params=
+comment5.target=void\ dealDamage()
+comment5.text=\r\n\ Deals\ damage\ to\ character\ if\ the\ intersect\ the\ spider.\ Sets\ location\ to\ be\ on\ top\ of\ the\ player\r\n\ if\ they\ do.\r\n\r\n
+numComments=6

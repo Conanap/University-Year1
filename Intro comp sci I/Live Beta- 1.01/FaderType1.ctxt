@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.params=f
+comment0.target=void\ fade(int)
+comment0.text=\r\n\ Decrease\ transparency\ value\ of\ Black\ 1280x720\ filler\ at\ certain\ increments.\r\n
+numComments=1

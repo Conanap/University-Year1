@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Charger()
+comment1.params=
+comment1.target=void\ act()
+comment1.text=\r\n\ Act\ -\ do\ whatever\ the\ Enemies\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment2.params=num
+comment2.target=void\ moveX(int)
+comment2.text=\r\n\ Charger's\ special\ way\ to\ move\ horizontally\r\n\r\n\ @param\ num\ Direction\ to\ move,\ +\ for\ right\ ,\ -\ for\ left\r\n
+comment3.params=
+comment3.target=void\ chargePlayer()
+comment3.text=\r\n\ Checks\ if\ player\ is\ in\ front\ of\ the\ charger\ based\ off\ current\ movement\ direction.\ If\ so,\ \r\n\ increase\ speed\ and\ charge\ towards\ them,\ calling\ dealDamage()\ to\ check\ for\ collisions.\ \r\n\r\n
+comment4.params=
+comment4.target=void\ dealDamage()
+comment4.text=\r\n\ Deals\ damage\ to\ the\ player\ if\ they\ are\ intersecting.\ If\ they\ collide,\ the\ charger\r\n\ will\ prepare\ to\ turn\ around.\r\n\r\n
+numComments=5

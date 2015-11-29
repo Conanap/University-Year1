@@ -1,0 +1,122 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
+
+/**
+ * The tool superclass.
+ * 
+ * @author (Tyler Zhang) 
+ * @version (Jan 2015)
+ */
+public abstract class Tools extends Actor
+{
+    protected String name;
+    protected int dmg;
+    protected int health;
+    protected int healthMax;
+    protected int range;
+    protected int speed;
+    protected int holdCounter;
+    protected int healthCounter;
+    protected boolean mouseOn;
+    protected GreenfootImage img;
+    protected Player target;
+
+    /**
+     * Follow the cursor.
+     */
+    protected void followMouse()
+    {
+        MouseInfo mouse = Greenfoot.getMouseInfo();
+        if (target != null){
+            setLocation(target.getX()-1, target.getY()-6);
+        }else{
+            destroy();
+        }
+
+        if (mouse != null) 
+        {  
+            turnTowards(mouse.getX(), mouse.getY());
+            List <Block> blocks = getWorld().getObjectsAt(mouse.getX(), mouse.getY(), Block.class);
+            if(blocks.size() != 0)
+            {
+                Block blc = blocks.get(0);
+                if(getDistance(blc) < range)
+                {
+                    blc.highlight(true);
+                }else{
+                    blc.highlight(false);
+                }
+                if(mouse.getButton() == 1 && getDistance(blc) < range){
+                    if(holdCounter > speed){
+                        blc.damage(dmg);
+                        animate();
+                        if(healthCounter > 10){
+                            loseHealth();
+                            healthCounter = 0;
+                        }else{
+                            healthCounter++;
+                        }
+                    }else{
+                        holdCounter++;
+                    }
+                }else if(mouse.getButton() != 1){
+                    holdCounter = 0;
+                }else if (Greenfoot.mouseClicked(blc) && getDistance(blc) < range){
+                    blc.damage(dmg);
+                    animate();
+                    if(healthCounter > 10){
+                        loseHealth();
+                        healthCounter = 0;
+                    }else{
+                        healthCounter++;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Decrease the health of the tool by one.
+     */
+    protected void loseHealth()
+    {
+        health--;
+        if(health <= 0){
+            destroy();
+        }
+    }
+
+    /**
+     * Increase the health of the tool.
+     * @param amt The amount to restore by.
+     */
+    public void heal(int amt)
+    {
+        health += amt;
+        if(health > healthMax){
+            health = healthMax;
+        }
+    }
+
+    protected void animate()
+    {
+
+    }
+
+    /**
+     * Destroy the tool.
+     */
+    public void destroy()
+    {
+        getWorld().removeObject(this);
+    }
+
+    /**
+     * Return the distance from this to another object.
+     * 
+     * @return double the distance of between two actors.
+     */
+    protected double getDistance(Actor actor) {
+        return Math.hypot(actor.getX() - getX(), actor.getY() - getY());
+    }
+}

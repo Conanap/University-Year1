@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=x\ y\ cell
+comment0.target=GameWorlds(int,\ int,\ int)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ GameWorld.\r\n\ \r\n
+comment1.params=
+comment1.target=void\ generateEmbers()
+comment1.text=\r\n\ Mimics\ the\ animation\ of\ burning\ embers.\r\n
+comment2.params=
+comment2.target=void\ started()
+comment2.text=\r\n\ Starts\ playing\ the\ main\ menu\ theme.\r\n
+comment3.params=
+comment3.target=void\ stopped()
+comment3.text=\r\n\ Stops\ playing\ the\ main\ menu\ theme\ when\ the\ simulation\ is\ not\ running.\r\n
+numComments=4

@@ -1,0 +1,58 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+
+/**
+ * Write a description of class Rope here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class Rope extends Throwables
+{
+    public Rope () {
+        maxSpeed = 25;
+        maxTime = 20;
+        mobile = true;
+        extraFallTime = 20;
+
+        curSpeed = maxSpeed;
+        curTime = 0;
+        flightDist = 0;
+
+        GreenfootImage baseImg = new GreenfootImage("rope.png");
+    }
+
+    /**
+     * Act - do whatever the Rope wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
+    public void act() 
+    {
+        if(mobile){ fly();}
+        attachBlock();
+    }    
+
+    public void fly(){
+        curTime++;
+        if (curTime <= maxTime){
+            curSpeed = curSpeed - maxSpeed/maxTime;
+            flightDist += curSpeed;
+        }
+        else{
+            curSpeed--;
+        }
+        setLocation(getX(), getY() - curSpeed);
+        GreenfootImage newImage = new GreenfootImage (baseImg.getWidth(), flightDist); //Create a new image of the appropriate length
+        newImage.drawImage(baseImg, 0, 0); //Draw the base image onto it
+        this.setImage(newImage); //Set the rope's image to this image
+    }
+
+    public void attachBlock(){
+        if (curTime >= maxTime + extraFallTime){
+            mobile = false;
+        }
+        else if (isTouching(Block.class)){ //Checks to see if block is in foreground
+            mobile = false;
+            //Add checker?
+        }
+    }
+}

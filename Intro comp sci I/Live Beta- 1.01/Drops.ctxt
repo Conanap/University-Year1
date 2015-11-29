@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=tp
+comment0.target=Drops(int)
+comment1.params=
+comment1.target=void\ dropStuff()
+comment1.text=\r\n\ Allows\ all\ different\ types\ of\ block\ drops\ to\ travel\ downwards\ after\ block\ has\ been\ broken,\ for\ player\ pick-up.\r\n\ In\ essence,\ this\ accurately\ emulates\ the\ force\ of\ gravity.\r\n
+comment2.params=
+comment2.target=void\ act()
+comment3.params=
+comment3.target=int\ getType()
+numComments=4

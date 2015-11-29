@@ -1,0 +1,213 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
+import java.awt.Color;
+
+/**
+ * The class for all the blocks in the game.
+ * 2‘d’ designates dirt
+ * 1‘c’ designates cobble stone
+ * 3‘i’ designates iron ore block
+ * 4‘g’ designates gold ore block
+ * 5‘s’ designates silver ore block
+ * 6‘a’ designates diamond block
+ * 7‘e’ designates emerald ore block
+ * 8 'l'  designates lapis ore block
+ * 
+ * @author (Tyler Zhang), modified by Albion Fung 
+ * @version (January 2015)
+ */
+public class Block extends Actor
+{
+    private int type; // Indict the type of block.
+    private static int TOTAL_TYPE = 8; // The total number of types.
+    private int health; // The current health of the block
+    private int healthMax; // The max health.
+    private int xCor, yCor;
+    private String name; // The hover display name for the block.
+    private GreenfootImage bg;
+    private GreenfootImage fg;
+    private boolean mouseOver;
+
+    /**
+     * Construct a block with default type.
+     */
+    public Block()
+    {
+        this(1);
+    }
+
+    public Block(int yCoor, int xCoor, int tp)
+    {
+        this(tp);
+        xCor=xCoor;
+        yCor=yCoor;
+        System.out.println(yCor);
+    }
+
+    /**
+     * Construct a block with a type.
+     * @param tp The type of the block.
+     */
+    public Block(int tp)
+    {
+        if (tp < 0){
+            tp = 0;
+        }else if (tp > TOTAL_TYPE - 1){
+            tp = TOTAL_TYPE - 1;
+        }
+
+        switch(tp){
+            case 2:
+            name = "dirt_topmost_layer";
+            healthMax = 5;
+            break;
+
+            case 1:
+            name = "cobble";
+            healthMax = 10;
+            break;
+
+            case 3:
+            name = "iron";
+            healthMax = 15;
+            break;
+
+            case 4:
+            name = "silver";
+            healthMax = 25;
+            break;
+
+            case 5:
+            name = "gold";
+            healthMax = 40;
+            break;
+
+            case 6:
+            name = "diamond";
+            healthMax = 100;
+            break;
+
+            case 7:
+            name = "emerald";
+            healthMax = 200;
+            break;
+
+            case 8:
+            name = "lapis";
+            healthMax = 500;
+            break;
+
+            default:
+            break;
+        }
+
+        if(tp==2 && yCor!=0){
+            name="dirt";
+        }
+        health = healthMax;
+        mouseOver = false;
+
+        bg = new GreenfootImage(name + ".png");
+        fg = new GreenfootImage(bg.getWidth(), bg.getHeight());
+        updateImg();
+    }
+
+    public void act()
+    {
+        //Reset image when the mouse is not on block
+        MouseInfo mouse = Greenfoot.getMouseInfo();
+        if (mouse != null){
+            int xCo = mouse.getX();
+            int yCo = mouse.getY();
+            if (mouseOver && !getWorld().getObjectsAt(xCo, yCo, Block.class).contains(this))
+            {
+                setImage(bg);
+                mouseOver = false;
+            }
+        }
+    }
+
+    /**
+     * Do defualt damage to the block, take away 1 hp.
+     */
+    public void damage()
+    {
+        damage(1);
+    }
+
+    /**
+     * Do a certain hamage to the block, take away a certain hp.
+     * @para dmg The amount of damage.
+     */
+    public void damage(int dmg)
+    {
+        health -= dmg;
+        int healthPer = (health * 100)/ healthMax;
+        if (healthPer <= 90)
+        { // If the hp % is less than 90, draw fracture1;
+            bg.drawImage(new GreenfootImage("frac1.png"),0,0);
+            updateImg();
+        }else if (healthPer <= 60)
+        { // If the hp % is less than 60, draw fracture2;
+            bg.drawImage(new GreenfootImage("frac2.png"),0,0);
+            updateImg();
+        }else if (healthPer <= 30)
+        { // If the hp % is less than 30, draw fracture3;
+            bg.drawImage(new GreenfootImage("frac3.png"),0,0);
+            updateImg();
+        }
+        if (health <= 0)
+        {
+            destroy();
+        }
+    }
+
+    /**
+     * Destroy this block.
+     */
+    private void destroy()
+    {
+        Test test = (Test)getWorld();
+        test.mapMod(yCor,xCor,0);
+        getWorld().removeObject(this);
+        dropItem();
+    }
+
+    /**
+     * Basing on the type of the block, item might be droped.
+     */
+    private void dropItem()
+    {
+        //Drop ore base on the type of block.
+    }
+
+    /**
+     * Highlight the current block with red or green.
+     * @param green Highlight the color of the block green if true, red if false.
+     */
+    public void highlight(boolean green)
+    {
+        if(green){
+            fg.setColor(Color.GREEN);
+            fg.fill();
+            fg.setTransparency(100);
+            updateImg();
+        }else{
+            fg.setColor(Color.RED);
+            fg.fill();
+            fg.setTransparency(100);
+            updateImg();
+        }
+        mouseOver = true;
+    }
+
+    /**
+     * Set the image of the block.
+     */
+    private void updateImg()
+    {
+        GreenfootImage img = new GreenfootImage(bg);
+        img.drawImage(fg, 0, 0);
+        setImage(img);
+    }
+}

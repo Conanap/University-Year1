@@ -1,0 +1,207 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+
+/**
+ * The abstract parent class for all the characters in this game.
+ * Including player and different types of enemies.
+ * 
+ * @author
+ * @version (a version number or a date)
+ */
+public abstract class Characters extends Actor
+{
+    //Movement
+    protected int maxSpeed, curSpeed; //Current speed; positives means moving right, negatives left.
+    protected int maxMoveDelay, curMoveDelay; //To help smoothen/slow movement- only moves once cur = max
+    protected int maxSlowDelay, curSlowDelay; //To help smoothen/slow rate of deceleration- only decelerates when cur = max
+    protected int moveFrame;
+
+    protected int maxFallSpeed, curFallSpeed;
+    protected int maxFallDelay, curFallDelay; //To help smoothen/slow rate of acceleration downwards
+
+    protected int maxJumpCount, curJumpCount; //Can countinue to gain altitude as long as curJumpCount is under the max
+    protected int jumpSpeed; //Constant number; counteracted by gravity (increasing curFallSpeed)
+    protected int blockSize;
+    protected boolean inAir;
+    protected boolean onRope;
+
+    //Images and Sounds
+    protected GreenfootImage base;
+    
+    /**
+     * Positive for move right, negative for left
+     *
+     * @param num A parameter
+     */
+    public void move(int num){
+        //Move if there is no block directly ahead
+        //Horizontal movement also prevented if player is on a rope
+        if (!moveCollision(num) && onRope == false){ 
+            //Move if there is space ahead
+            curMoveDelay++;
+            if(curMoveDelay == maxMoveDelay){ //Slows acceleration rate for a smoother/slower increase
+                accelerate(num);
+                setLocation(getX()+curSpeed,getY());
+
+                curMoveDelay = 0; //Reset counter
+            }
+            else{ //Moves a small amount to smoothen the movement appearance
+                setLocation(getX()+curSpeed/4, getY());
+            }
+        }
+    }
+
+    public void jump(int num){
+        //If the player is on the ground or currently in a jump, OR on a rope, jump
+        if(touchGround() || curJumpCount > 0 || onRope == true){ 
+            if(num > curJumpCount && num <= maxJumpCount){ //Checks if the jump button has been held, and if it is below the max
+                curJumpCount = num; //Jump count stores the entered number to check if the next jump command
+                //is from the same previous jump
+
+                //Moves upward if a block is not directly above
+                if (!headCollision()){//If the head is not about to collide into a block, then move
+                    setLocation(getX(), getY() - jumpSpeed);
+                }       
+                else { resetJump();} //Will no longer move upwards, even if the button continues to be held.
+            }
+            onRope = false; //Resets to false since a jump occured
+        }
+    }
+    
+    public void resetJump(){
+        curJumpCount = 0;
+    }
+    
+    /**
+     * Method accelerate
+     *
+     * @param change A parameter
+     */
+    private void accelerate(int change){
+        curSpeed += change;
+        if (curSpeed > maxSpeed){
+            curSpeed = maxSpeed;
+        }
+        else if (curSpeed <= maxSpeed*-1){
+            curSpeed = maxSpeed*-1;
+        }
+    }
+
+    /**
+     * Method decelerate
+     * 
+     * *Note, counteracts move() if the parameters entered in move() is 1
+     */
+    protected void decelerate(){
+        if (curSpeed != 0){
+            if (!moveCollision(curSpeed)){ //Checks if block is directly ahead of current path
+                //If there is space infront
+                setLocation(getX()+curSpeed, getY());
+                curSlowDelay++;
+
+                if (curSlowDelay == maxSlowDelay){
+                    if (curSpeed > 0){
+                        curSpeed--;
+                    }
+                    else if(curSpeed < 0){
+                        curSpeed++;
+                    }
+                    curSlowDelay = 0; //Reset counter
+                }
+            }
+        }
+    }
+    
+    protected void gravity(){
+        if (!touchGround() && onRope == false){//Not touching a block on the ground below
+            if (curFallDelay == maxFallDelay){
+                curFallSpeed++; //Accelerates falling rate
+                curFallDelay = 0; //Resets counter
+            }
+            else{ curFallDelay++;}
+
+            if (curFallSpeed > maxFallSpeed){
+                curFallSpeed = maxFallSpeed; //Resets falling rate to max if it exceeds it
+            }
+            setLocation(getX(), getY()+curFallSpeed); //Changes player position at current rate
+        }
+        else{ //Touching a block on the ground below
+            if(curFallSpeed > 10){ //Does damage to the player in relation to the fall speed
+
+            }
+            curFallSpeed = 0;
+        }
+    }
+    
+    public boolean touchGround(){
+        double temp = base.getHeight()*0.55; //Rough distance from player center; to detect for ground block.
+        int offset = (int) temp;
+        Actor object = new Block(); //Stores the object to check for. Can vary from blocks to spikes etc. Initalized to prevent error
+
+        for (int i = 0; i < 2; i++){//Checks for each condition where the player touches the ground
+            if (i == 0) {
+                object = getOneObjectAtOffset(0, offset, Block.class);} //Checks directly below player
+            else if (i == 1){
+                object = getOneObjectAtOffset(base.getWidth()/2 - 1, offset, Block.class); } //Checks for blocks at the bottom right corner
+            else if (i == 2){ 
+                object = getOneObjectAtOffset(base.getWidth()/2*-1 + 1, offset, Block.class);}//Checks for blocks at the bottom left corner
+
+            if (object != null){ //Sets the player to the proper distance from the ground
+                setLocation(getX(), object.getY() - blockSize/2 - base.getHeight()/2);            
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Method moveCollision
+     *
+     * @param direction The direction the player is moving in. Positive = towards the right, Negative = towards the left
+     * @return True if the player collides, False if not
+     */
+    public boolean moveCollision(int direction){
+        int offset; //Distance to detect for edge of block
+        if (direction < 0){
+            offset = -base.getWidth()/2 - curSpeed; //Looks to the left of the player 
+        }
+        else {
+            offset = base.getWidth()/2 + curSpeed; //Looks to the right of the player
+        }
+
+        Actor object = new Block(); //Stores the object to check for. Can vary from blocks to spikes etc. Initalized to prevent error
+        for (int i = 0; i < 2; i++){ //Checks for each condition that could collide
+            if (i == 0){ 
+                object = getOneObjectAtOffset(offset, 0, Block.class);} //Checks for nearby block straight ahead path
+            else if (i == 1){
+                object = getOneObjectAtOffset(offset, base.getHeight()/2*-1 - 1, Block.class);} //Checks for block infront of head
+            else if (i == 2){
+                object = getOneObjectAtOffset(offset, base.getHeight()/2 - 1, Block.class);} //Checks for block infront of legs
+
+            if (object != null){ //If there is a block the player is about to collide with
+                curSpeed = 0; //Set speed to zero, since there is a collision
+                if (direction > 0){
+                    setLocation(object.getX() - blockSize/2 - base.getWidth()/2, getY()); //Sets player directly to the left of the block
+                }
+                else{
+                    setLocation(object.getX() + blockSize/2 + base.getWidth()/2, getY()); //Sets player directly to the right of the block
+                }
+                return true; //There is a collision
+            }
+            //Include any other object collisions
+            //Include other block collision checks if he clips into corners
+        }
+        return false; //There is no collision
+    }
+
+    public boolean headCollision() {
+        //Distance the player can move without hitting a block
+        int moveableDist =  base.getHeight()/2*-1 + jumpSpeed - 1; 
+
+        if (getOneObjectAtOffset(0 , moveableDist, Block.class) == null && //Directly above
+        getOneObjectAtOffset(base.getWidth()/2 , moveableDist, Block.class) == null &&  //To the top-right
+        getOneObjectAtOffset(base.getWidth()/2*-1, moveableDist + jumpSpeed, Block.class) == null){ //To the top-left
+            return false;
+        }
+        return true;
+    }
+}

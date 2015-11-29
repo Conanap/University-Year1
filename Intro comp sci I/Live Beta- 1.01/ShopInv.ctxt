@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.params=
+comment0.target=ShopInv()
+comment1.params=Test
+comment1.target=void\ addedToWorld(greenfoot.World)
+comment10.params=
+comment10.target=void\ act()
+comment10.text=\r\n\ Act\ -\ do\ whatever\ the\ ShopInv\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment2.params=showing
+comment2.target=void\ setShowing(boolean)
+comment3.params=
+comment3.target=void\ removeShopItems()
+comment4.params=Test
+comment4.target=void\ fillInvSlots(greenfoot.World)
+comment5.params=
+comment5.target=void\ emptyInvSlots()
+comment6.params=
+comment6.target=void\ removeButtons()
+comment7.params=buyItem
+comment7.target=void\ buying(ShopItem)
+comment8.params=sellItem
+comment8.target=void\ selling(InventoryItem)
+comment9.params=price
+comment9.target=void\ updatePriceDisplay(int)
+numComments=11

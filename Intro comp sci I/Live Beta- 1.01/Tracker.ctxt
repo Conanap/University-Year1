@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Tracker()
+comment0.text=\r\n\ The\ constructor\ for\ the\ Tracker\ object.\r\n
+comment1.params=
+comment1.target=void\ increase()
+comment1.text=\r\n\ The\ method\ that\ adds\ the\ Tracker's\ value.\r\n
+comment2.params=target
+comment2.target=boolean\ hit(int)
+comment2.text=\r\n\ Checks\ to\ see\ if\ the\ value\ has\ hit\ the\ target\ .\r\n\ It\ returns\ "true"\ and\ clears\ the\ Tracker\ when\ the\ target\ value\ is\ reached;\ otherwise,\ "false"\ is\ returned.\r\n
+comment3.params=
+comment3.target=void\ clear()
+comment3.text=\r\n\ Exists\ to\ clear\ the\ value\ stored\ in\ the\ value\ varible\ (int\ value).\r\n
+numComments=4

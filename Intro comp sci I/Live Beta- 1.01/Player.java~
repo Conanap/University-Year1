@@ -1,0 +1,201 @@
+import greenfoot.*;  // (World, Actor, GreenfootImage, Greenfoot and MouseInfo)
+import java.util.List;
+
+/**
+ * Write a description of class player here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
+public class Player extends Characters
+{
+    private int ropeNum,ropeDelay;
+    private int bombNum, bombDelay;
+    private PlayerArm pArm;
+
+    private HealthBar hpbar = new HealthBar(100, 50, 690);
+    
+    //Inventory
+    private int inventoryDelay; // a counter that counts upwards
+    PlyrInv playerInv;
+    public Player(){
+        //Stats
+        maxHP = 100;
+        curHP = maxHP;
+        ropeNum = 3;
+        onRope = false;
+        bombNum = 10;
+
+        //Movement
+        maxSpeed = 5;
+        maxSlowDelay = 4; //Causes increase in forward acceleration to happen once per 4 acts
+        maxMoveDelay = 4;
+        maxFallSpeed = 30;
+        maxFallDelay = 2; //Causes increase of downwards acceleration to happen only once per 2 acts
+        maxJumpCount = 16;
+        jumpSpeed = 8;
+
+        curSpeed = 0; 
+        curSlowDelay = 0; 
+        curMoveDelay = 0;
+        curFallSpeed = 1;
+        curFallDelay = 0;
+        curJumpCount = 0;
+
+        blockSize = 25;
+        inventoryDelay = 0;
+        playerInv = new PlyrInv();
+        pArm = new PlayerArm(this);
+        getWorld().addObject(pArm, getX(), getY());
+        
+        base = new GreenfootImage("player.png");
+        setImage(base);
+    }
+
+    public void addedToWorld(World thisWorld){
+        thisWorld.addObject(hpbar, 50, 690);
+    }
+
+    /**
+     * Act - do whatever the player wants to do. This method is called whenever
+     * the 'Act' or 'Run' button gets pressed in the environment.
+     */
+    public void act() 
+    {        
+        decelerate();
+        gravity();
+        resetOnRope(); //Turns on Rope off if the player is on the rope
+        ropeDelay--; //Lowers counter
+        bombDelay--;
+        inventoryDelay++;
+    }
+
+    public void damage(int num){
+        super.damage(num);
+        hpbar.update(-num); //Decreases hp bar amount
+    }
+
+    public void heal(int num){
+        super.damage(num);
+        hpbar.update(num); //Increases hp bar amount
+    }
+
+    /**
+     * Positive for move right, negative for left
+     *
+     * @param num A parameter
+     */
+    public void moveX(int num){
+        //Move if there is no block directly ahead
+        //Horizontal movement also prevented if player is on a rope
+        if (!moveCollision(num) && onRope == false){ 
+            //Move if there is space ahead
+            curMoveDelay++;
+            if(curMoveDelay == maxMoveDelay){ //Slows acceleration rate for a smoother/slower increase
+                accelerate(num);
+                setLocation(getX()+curSpeed,getY());
+
+                curMoveDelay = 0; //Reset counter
+            }
+            else{ //Moves a small amount to smoothen the movement appearance
+                setLocation(getX()+curSpeed/4, getY());
+            }
+        }
+    }
+
+    public void die(){
+        //Game over screen?
+        getWorld().removeObject(this);
+    }
+
+    /**
+     * Method climbRope
+     *
+     * @param num Amount to move. Positive for up, negative for down.
+     */
+    public void climbRope(int num){
+        Actor rope = getOneIntersectingObject(Rope.class);
+        if (rope != null){
+            curSpeed = 0; //Prevents player from flying off rope from momentum
+            onRope = true;
+            if ( num > 0 && (rope.getY() - rope.getImage().getHeight()/2) - getY() < -30){ //Only allows up movement if the player is under the top of the rope
+                setLocation(getX(), getY() - num);
+            }
+            //If the player moves down the rope, off the length of the rope, the player
+            //is considered off the rope
+            else if (num < 0){
+                setLocation(getX(), getY() - num);
+                if (getY() - (rope.getY() + rope.getImage().getHeight()/2) > 0){
+                    onRope = false;                
+                }
+            }
+        }
+    }
+
+    public void throwRope(){
+        if (ropeNum > 0 && ropeDelay <= 0){
+            World currentWorld = getWorld();//Finds current world
+            Rope rope = new Rope();//Creates a rope object
+            currentWorld.addObject(rope, getX(), getY()); //Spawns rope at current location
+            ropeNum--;//Decreases rope count
+            ropeDelay = 50; //Sets a delay to prevent accidental throwing
+        }
+    }
+
+    /**
+     * Resets onRope to false if the player is touching the round
+     * Helps account for when the player moves down the rope to the ground,
+     * and also fixes a certain bug
+     *
+     */
+    public void resetOnRope(){
+        if (touchGround()){
+            onRope = false;
+        }
+    }
+
+    public void addRopes(int num){
+        if (num > 0){
+            ropeNum += num;
+        }
+    }
+
+    public void throwBomb(){
+        if (bombNum > 0 && bombDelay <= 0){
+            World currentWorld = getWorld();//Finds current world
+            MouseInfo mouse = Greenfoot.getMouseInfo(); //To get mouse coordinates
+            try{
+                Bomb bomb = new Bomb(mouse.getX(), mouse.getY());//Creates a bomb object aiming at mouse coordinates
+                currentWorld.addObject(bomb, getX(), getY()); //Spawns bomb at current location
+            }
+            catch(NullPointerException e){
+                //Play sound?
+            }
+            bombNum--;//Decreases bomb count
+            bombDelay = 50; //Sets a delay to prevent accidental throwing
+        }
+    }
+
+    public void addBombs(int num){
+        if (num > 0){
+            bombNum += num;
+        }
+    }
+    
+    public void toggleInventory(){
+        if (!playerInv.isShowing() && inventoryDelay >= 20) {
+            getWorld().addObject(playerInv, 379, 259);
+            playerInv.setShowing(true);
+            inventoryDelay = 0;
+        } else if (playerInv.isShowing() && inventoryDelay >= 20) {
+            playerInv.setShowing(false);
+            playerInv.emptyInvSlots();
+            getWorld().removeObject(playerInv);
+            inventoryDelay = 0;
+        }
+    }
+    
+    public PlyrInv getInventory() {
+        return playerInv;
+    }
+}

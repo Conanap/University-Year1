@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=
+comment0.target=FadeToPrologue3()
+comment1.params=
+comment1.target=void\ fade()
+comment1.text=\r\n\ Increase\ transparency\ value\ of\ Black\ 1280x720\ filler\ at\ certain\ increments.\r\n
+numComments=2

@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=ID
+comment0.target=ShopItem(int)
+comment1.params=
+comment1.target=void\ act()
+comment1.text=\r\n\ Act\ -\ do\ whatever\ the\ Inventory\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment2.params=
+comment2.target=int\ getPrice()
+comment3.params=
+comment3.target=int\ getID()
+comment4.params=ID
+comment4.target=void\ setID(int)
+comment5.params=
+comment5.target=void\ update()
+comment6.params=
+comment6.target=void\ checkHover()
+numComments=7

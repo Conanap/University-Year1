@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=
+comment0.target=LoadingScreen2()
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ LoadingScreen.\r\n\ \r\n
+comment1.params=
+comment1.target=void\ act()
+comment2.params=
+comment2.target=void\ timer()
+comment2.text=\r\n\ Counts\ up\ until\ a\ particular\ integer\ value,\ and\ then\ switches\ the\ screen\ into\ another\ world.\r\n\ Essentially\ determines\ how\ long\ the\ loading\ screen\ will\ last.\r\n
+numComments=3

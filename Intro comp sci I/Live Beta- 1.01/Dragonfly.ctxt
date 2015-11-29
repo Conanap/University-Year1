@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Dragonfly()
+comment1.params=
+comment1.target=void\ act()
+comment1.text=\r\n\ Act\ -\ do\ whatever\ the\ Dragonfly\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment2.params=
+comment2.target=void\ wander()
+comment2.text=\r\n\ Randomly\ move\ in\ one\ of\ 8\ predefined\ directions.\ Includes\ basic\ left,\ right,\ up,\ down,\r\n\ and\ diagonal\ options.\r\n\r\n
+comment3.params=num
+comment3.target=void\ moveX(int)
+comment3.text=\r\n\ Dragon\ fly's\ version\ of\ moveX.\ \r\n\r\n\ @param\ num\ Positive\ for\ right,\ negative\ for\ left\r\n
+comment4.params=num
+comment4.target=void\ moveY(int)
+comment4.text=\r\n\ Moves\ in\ vertically\ if\ it\ doesn't\ collide\ with\ the\ ground\ or\ ceiling\r\n\ Based\ off\ moveX()\r\n\r\n\ @param\ num\ Negatives\ move\ up,\ Positives\ move\ down\r\n
+comment5.params=
+comment5.target=void\ attackPlayer()
+comment5.text=\r\n\ Target's\ player\ location\ and\ checks\ if\ they\ are\ within\ range.\ If\ so,\ speed\ increases\ and\ it\ \r\n\ calls\ the\ spitGoo\ method\r\n\r\n
+comment6.params=x\ y
+comment6.target=void\ spitGoo(int,\ int)
+comment6.text=\r\n\ Spawns\ and\ fires\ a\ GooShot\ object\ aimed\ at\ the\ inputted\ location\r\n\r\n\ @param\ x\ Coordinate\r\n\ @param\ y\ Coordinate\r\n
+numComments=7

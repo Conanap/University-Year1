@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=
+comment0.target=void\ dealDamage()
+comment0.text=\r\n\ Deals\ a\ set\ amount\ of\ damage\ to\ blocks\ and\ characters\ within\ a\ set\ radius\r\n\r\n
+comment1.params=
+comment1.target=void\ explode()
+comment1.text=\r\n\ Quickly\ changes\ it's\ frames\ to\ make\ it\ appear\ as\ if\ the\ explosion\r\n\ is\ animated.\r\n\ Removes\ itself\ once\ the\ animation\ is\ over.\r\n\r\n
+comment2.params=
+comment2.target=void\ gravity()
+numComments=3

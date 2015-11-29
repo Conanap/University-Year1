@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=max\ x\ y
+comment0.target=HealthBar(int,\ int,\ int)
+comment1.params=
+comment1.target=void\ act()
+comment2.params=num
+comment2.target=void\ update(int)
+comment2.text=\r\n\ Updates\ image\ size\ based\ off\ the\ change\ in\ size\ as\ stated\ by\ the\ inputted\ parameter\ amount.\r\n\ Also\ updates\ the\ image,\ creating\ an\ animation\ affect.\r\n\r\n\ @param\ num\ The\ charge\ to\ the\ current\ size\r\n
+comment3.params=
+comment3.target=void\ resetLocation()
+comment3.text=\r\n\ Resets\ location\ based\ on\ spawn\ location.\ Needed\ because\ of\ change\ in\ the\ hp\ bar\ size.\r\n\r\n
+numComments=4

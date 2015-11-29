@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.params=
+comment0.target=TrashSlot()
+comment1.params=Test
+comment1.target=void\ addedToWorld(greenfoot.World)
+comment1.text=\r\n\ Adds\ it's\ item,\ if\ it\ exists\r\n\ \r\n\ @param\ Test\ \ the\ world\r\n
+comment2.params=
+comment2.target=void\ clearAsset()
+comment2.text=\r\n\ Clears\ the\ associated\ item\ of\ trash\ slot\ by\ removing\ it\ from\ the\ world\ as\ well\ as\ any\ objects\ associated\r\n\ with\ the\ item\r\n
+comment3.params=newItem
+comment3.target=void\ newItem(InventoryItem)
+comment3.text=\r\n\ Sets\ a\ new\ item\r\n\ \r\n\ @param\ newItem\ \ \ the\ new\ item\ to\ be\ stored\ in\ trashSlot\r\n
+numComments=4

@@ -1,0 +1,24 @@
+#BlueJ class context
+comment0.params=
+comment0.target=GooShot()
+comment1.params=x\ y
+comment1.target=GooShot(int,\ int)
+comment2.params=x\ y\ damage\ radius
+comment2.target=GooShot(int,\ int,\ int,\ int)
+comment3.params=currentWorld
+comment3.target=void\ addedToWorld(greenfoot.World)
+comment4.params=
+comment4.target=void\ act()
+comment4.text=\r\n\ Act\ -\ do\ whatever\ the\ GooShot\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment5.params=
+comment5.target=void\ fly()
+comment6.params=
+comment6.target=void\ checkCollision()
+comment6.text=\r\n\ Explodes\ if\ touching\ certain\ objects,\ except\ for\ certain\ exceptions.\r\n\ Exceptions\ are\ slightly\ differnt\ that\ the\ standard\ checkCollision.\r\n\r\n
+comment7.params=
+comment7.target=void\ dealDamage()
+comment7.text=\r\n\ Deals\ damage\ to\ only\ players\ and\ blocks\r\n\ Less\ range\ and\ damage\ than\ regular\ bomb\ dealDamage()\r\n
+comment8.params=
+comment8.target=void\ explode()
+comment8.text=\r\n\ Custom\ explode\ without\ animation.\r\n\r\n
+numComments=9

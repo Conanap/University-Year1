@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=
+comment0.target=TimerBomb()
+comment1.params=damage\ radius
+comment1.target=TimerBomb(int,\ int)
+comment2.params=
+comment2.target=void\ act()
+comment2.text=\r\n\ Act\ -\ do\ whatever\ the\ TimerBomb\ wants\ to\ do.\ This\ method\ is\ called\ whenever\r\n\ the\ 'Act'\ or\ 'Run'\ button\ gets\ pressed\ in\ the\ environment.\r\n
+comment3.params=
+comment3.target=void\ gravity()
+comment3.text=\r\n\ Simple\ gravity\ method\ that\ slowly\ moves\ the\ bomb\ downwards,\ accelerating\r\n\ if\ not\ touching\ the\ ground.\r\n\r\n
+numComments=4

@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=
+comment0.target=void\ followMouse()
+comment0.text=\r\n\ Follow\ the\ cursor.\r\n
+comment1.params=
+comment1.target=void\ animate()
+comment2.params=
+comment2.target=void\ swing()
+comment3.params=diggable
+comment3.target=void\ changeDig(boolean)
+comment4.params=
+comment4.target=void\ destroy()
+comment4.text=\r\n\ Destroy\ the\ tool.\r\n
+comment5.params=actor
+comment5.target=double\ getDistance(greenfoot.Actor)
+comment5.text=\r\n\ Return\ the\ distance\ from\ this\ to\ another\ object.\r\n\ \r\n\ @return\ double\ the\ distance\ of\ between\ two\ actors.\r\n
+numComments=6

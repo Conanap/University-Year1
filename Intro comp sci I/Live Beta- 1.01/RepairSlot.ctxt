@@ -1,0 +1,19 @@
+#BlueJ class context
+comment0.params=
+comment0.target=RepairSlot()
+comment1.params=
+comment1.target=void\ act()
+comment1.text=\r\n\ Repairs\ any\ item\ placed\ inside\ the\ repair\ slot,\ and\ charges\ 1\ coin\ for\ every\ 2\ duration\ repaired\r\n
+comment2.params=Test
+comment2.target=void\ addedToWorld(greenfoot.World)
+comment2.text=\r\n\ Adds\ it's\ item,\ if\ it\ exists\r\n\ \r\n\ @param\ Test\ \ the\ world\r\n
+comment3.params=
+comment3.target=void\ clearAsset()
+comment3.text=\r\n\ Clears\ the\ associated\ item\ of\ trash\ slot\ by\ removing\ it\ from\ the\ world\ as\ well\ as\ any\ objects\ associated\r\n\ with\ the\ item.\ It\ also\ adds\ the\ item\ into\ the\ inventory\ before\ it\ deletes\ it\ from\ repair\ slot\r\n
+comment4.params=newItem
+comment4.target=void\ removeItem(InventoryItem)
+comment4.text=\r\n\ Remove\ the\ reference\ to\ the\ item\ in\ repair\ slot,\ if\ the\ parameter\ and\ the\ current\ item\ match\r\n\ \r\n\ @param\ newItem\ \ \ the\ item\ that\ is\ being\ checked\ to\ be\ the\ same\ as\ the\ current\ item\r\n
+comment5.params=newItem
+comment5.target=void\ newItem(InventoryItem)
+comment5.text=\r\n\ Sets\ a\ new\ item\ to\ be\ stored\ in\ repairSlot\r\n\ \r\n\ @param\ newItem\ \ \ the\ new\ item\r\n
+numComments=6
