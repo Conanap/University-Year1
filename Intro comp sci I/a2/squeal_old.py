@@ -1,6 +1,3 @@
-# Albion Ka Hei Fung
-# Nov 24, 2015
-# v 0.0.1
 from reading import *
 from database import *
 

@@ -1,7 +1,6 @@
 # By Albion Ka Hei Fung
 # Nov 25, 2015
 # v 0.0.1
-# Functions for reading tables and databases
 
 import glob
 from database import *
@@ -17,8 +16,9 @@ from database import *
 # IT IS JUST HERE TO DEMONSTRATE HOW THE glob CLASS WORKS. IN FACT
 # YOU SHOULD DELETE THE PRINT STATEMENT BEFORE SUBMITTING
 file_list = glob.glob('*.csv')
-
 # Write the read_table and read_database functions below
+
+
 def read_table(file_name):
     '''(str) -> Table
     Given the file, the function reads the file and turns the information
@@ -47,7 +47,7 @@ def read_table(file_name):
         _table.add_row(_line)
         # read next line
         _line = _file.readline()
-        #strip it so '\n' doesn't get passed
+        # strip it so '\n' doesn't get passed
         _line = _line.strip()
     # close the file
     _file.close()

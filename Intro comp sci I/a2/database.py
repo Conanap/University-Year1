@@ -1,7 +1,7 @@
 # Albion Ka Hei Fung
-# 1002444321
 # Nov 25, 2015
 # v 0.0.1
+
 
 class Table():
     '''A class to represent a SQuEaL table'''
@@ -201,6 +201,7 @@ class Table():
         # return the length
         return count
 
+
 class Database():
     '''A class to represent a SQuEaL database'''
     def __init__(self):
@@ -256,7 +257,7 @@ class Database():
         '''
         # return the dict
         return self._name_to_table
-    
+
     def get_table(self, name):
         '''(Database, str) -> Table
         Returns the table object requested

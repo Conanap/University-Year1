@@ -4,6 +4,16 @@
 
 from reading import *
 from database import *
+# Change the order of the following variables to appropriate values
+# if you are changing the order of the syntax
+# position of where clause
+where_cl = 5
+# position of select clause
+select_cl = 1
+# position of from clause
+from_cl = 3
+# the length of the query list if there is no where clause
+no_where_cl = 4
 
 
 def print_csv(table):
@@ -19,6 +29,7 @@ def print_csv(table):
         for column in columns:
             cur_column.append(dict_rep[column][i])
         print(','.join(cur_column))
+
 
 def run_query(database, query):
     '''(Databse, str) -> Table
@@ -63,29 +74,30 @@ def run_query(database, query):
     # split up the query
     n_query = query.split()
     # get the tables the user wants in query
-    tables = n_query[3]
+    tables = n_query[from_cl]
     # split up the table part of query
     tables = tables.split(',')
     # get cartesian product of all tables
     r_table = final_table(database, tables)
     # if there is a where cluase
-    if(len(n_query) > 4):
+    if(len(n_query) > no_where_cl):
         # for things where the condition is 2 words
         # for example, l.country='United States'
         # needa fix it into 1 where clause
-        if(len(n_query) > 5):
+        if(len(n_query) > where_cl):
             # so we join everything after the first where clause
-            n_query[5] = ' '.join(n_query[5:])
+            n_query[where_cl] = ' '.join(n_query[where_cl:])
         # get the where clause
-        where = n_query[5]
+        where = n_query[where_cl]
         # and apply the where clause to the resulted table
         r_table = apply_condition(r_table, where)
     # get the select part of the query and split it
-    select = n_query[1].split(',')
+    select = n_query[select_cl].split(',')
     # get the selected columns
     selected_ones = select_columns(r_table, select)
     # return the selected columns
     return selected_ones
+
 
 def select_columns(table, select):
     '''(Table, str) -> Table
@@ -130,6 +142,7 @@ def select_columns(table, select):
         # return the new item
         return r_table
 
+
 def apply_condition(table, where):
     '''(Table, str) -> Table
     Applies the given where conditions to the given table. Returns the table
@@ -158,10 +171,10 @@ def apply_condition(table, where):
     for clause in where:
         # identify if it's '=' or '>'
         if('=' in clause):
-        # split at '=' and identify it as an == comparison
+            # split at '=' and identify it as an == comparison
             condition = clause.split('=')
             equal_comp = True
-        #split at '>' and identify it as an > comparison
+        # split at '>' and identify it as an > comparison
         else:
             condition = clause.split('>')
             equal_comp = False
@@ -175,6 +188,9 @@ def apply_condition(table, where):
             r_cond[0] = table.get_item(i, condition[0])
             # same for second condition
             r_cond[1] = fix_cond(table, condition[1], i)
+            # fix first r_cond if the second one is a float or int
+            # for proper comparison
+            r_cond[0] = fix_cond_one(r_cond[0], r_cond[1])
             # compare the 2 values as requested,
             # adds the row to the result table if the condition is true
             r_table = compare_cond(r_table, table, i, r_cond, equal_comp)
@@ -190,6 +206,41 @@ def apply_condition(table, where):
     r_table = table
     # return the table
     return r_table
+
+
+def fix_cond_one(r_cond_one, r_cond_two):
+    '''(str, int float or str) -> int str or float
+    Given the second condition, the function converts the first condition to
+    the same type as the second condition such that during comparison
+    an error won't be produced
+    >>>a = '1'
+    >>>b = 2
+    >>>fix_cond_one(a, b)
+    1
+    >>>a = '1'
+    >>>b = 2.1
+    >>>fix_cond_one(a, b)
+    1.0
+    >>>a = '1'
+    >>>b = 'a'
+    >>>fix_cond_one(a, b)
+    '1'
+    '''
+    # if the second condition is an integer
+    if(type(r_cond_two) == int):
+        # change the first to an integer
+        r_cond = int(r_cond_one)
+    # if the second condition is a float
+    elif(type(r_cond_two) == float):
+        # change first to a float
+        r_cond = float(r_cond_one)
+    # otherwise
+    else:
+        # retain as a string
+        r_cond = r_cond_one
+    # return the result
+    return r_cond
+
 
 def fix_cond(table, condition, i):
     '''(Table, str) -> str
@@ -213,11 +264,26 @@ def fix_cond(table, condition, i):
         # if it isn't a key, retain the original string
         if(condition[0] == "'" and condition[-1] == "'"):
             r_cond = condition[1:-1]
-        # crash prevention
+        # if it ain't a string
         else:
+            # first make resulting condition the current one
             r_cond = condition
+            try:
+                # try to make it an int
+                r_cond = int(r_cond)
+            # if there's a decimal in there or non-number characters,
+            except ValueError:
+                try:
+                    # try to make it a float (because there could be a decimal)
+                    r_cond = float(r_cond)
+                except ValueError:
+                    # if we can't make it a float either, we just leave the
+                    # string as is since it's a string and the user forgot
+                    # to put the ' character before and after
+                    pass
     # return the condition
     return r_cond
+
 
 def compare_cond(r_table, table, row, condition, comp_type):
     '''(Table, Table, int, list of str, boolean) -> Table
@@ -255,6 +321,7 @@ def compare_cond(r_table, table, row, condition, comp_type):
                 r_table.add_item(header, table.get_item(row, header))
     # return r_table
     return r_table
+
 
 def final_table(database, tables):
     '''(Database, list of str) -> Table
@@ -299,6 +366,7 @@ def final_table(database, tables):
     # return the resulting table
     return r_table
 
+
 def table_join(database, tables):
     '''(Database, list str) -> Table
     Joins the table into a cartesian table.
@@ -327,6 +395,7 @@ def table_join(database, tables):
         # rinse and repeat until all are joined
     # return the table
     return r_table
+
 
 def cartesian_product(table_one, table_two):
     '''(Table, Table) -> Table
@@ -364,13 +433,14 @@ def cartesian_product(table_one, table_two):
     # start from row 1
     # for each row in the first table
     for i in range(h_one_height):
-    # add each of the second table's data to the row for each row
+        # add each of the second table's data to the row for each row
         for j in range(h_two_height):
             # add the row from first table
             r_table.add_row_table(table_one, header_one, i)
             # then for second table
             r_table.add_row_table(table_two, header_two, j)
     return r_table
+
 
 def fix_dup(table):
     '''(Table) -> Table
